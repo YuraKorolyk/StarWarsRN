@@ -17,7 +17,9 @@ export const storeDataToAsyncStorage = async (
   arr: ILikedPeople[],
 ) => {
   try {
-    await AsyncStorage.setItem(key, JSON.stringify(arr));
+    if (arr.length) {
+      await AsyncStorage.setItem(key, JSON.stringify(arr));
+    }
   } catch (error) {
     console.error('Error storing data in AsyncStorage: ', error);
   }

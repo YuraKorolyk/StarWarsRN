@@ -36,7 +36,7 @@ const PeopleItem: FC<IProps> = ({people, moreInfo}) => {
   };
 
   useEffect(() => {
-    const isLiked = likedPeople.find(item => item.id === id);
+    const isLiked = likedPeople?.find(item => item.id === id);
     setLiked(!!isLiked);
   }, [id, likedPeople]);
   return (
