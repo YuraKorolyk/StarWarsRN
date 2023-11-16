@@ -2,7 +2,11 @@ import React, {FC, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {peopleActions} from '../../redux/slices/people.slice';
-import {useNavigation} from '@react-navigation/native';
+import {
+  NavigationContainerRef,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 import LikeIcon from '../../assets/icons/LikeIcon';
 import {IPerson} from '../../interfaces/people.interface';
 import PeopleTextBlock from './PeopleTextBlock';
@@ -28,7 +32,7 @@ const PeopleItem: FC<IProps> = ({people, moreInfo}) => {
   const [liked, setLiked] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const likedPeople = useAppSelector(state => state.people.likedPeople);
-  const navigation = useNavigation();
+  const navigation: NavigationContainerRef<ParamListBase> = useNavigation();
 
   const likePressHandle = () => {
     setLiked(prevState => !prevState);
@@ -43,9 +47,7 @@ const PeopleItem: FC<IProps> = ({people, moreInfo}) => {
     <View style={styles.container}>
       {!moreInfo ? (
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('PersonScreen' as never, {people} as never)
-          }>
+          onPress={() => navigation.navigate('PersonScreen', {people})}>
           <PeopleTextBlock title="Name:" value={name} />
           <PeopleTextBlock title="Birth year:" value={birthYear} />
           <PeopleTextBlock title="Gender:" value={gender} />
