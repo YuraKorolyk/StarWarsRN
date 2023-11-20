@@ -3,6 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {peopleActions} from '../../redux/slices/people.slice';
 import CounterItem from './CounterItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CountersBar = () => {
   const likedPeople = useAppSelector(state => state.people.likedPeople);
@@ -26,15 +27,15 @@ const CountersBar = () => {
     return counts;
   }, [likedPeople]);
 
+  const clearFansHandler = async () => {
+    dispatch(peopleActions.setLikedArr([]));
+    await AsyncStorage.removeItem('likedPeople');
+  };
   return (
     <View>
       <View style={styles.container}>
         <Text style={styles.title}>Fans</Text>
-        <TouchableOpacity
-          style={styles.clearBtn}
-          onPress={() => {
-            dispatch(peopleActions.setLikedArr([]));
-          }}>
+        <TouchableOpacity style={styles.clearBtn} onPress={clearFansHandler}>
           <Text style={styles.clearText}>Clear fans</Text>
         </TouchableOpacity>
       </View>
